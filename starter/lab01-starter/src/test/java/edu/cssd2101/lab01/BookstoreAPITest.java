@@ -73,8 +73,8 @@ class BookstoreAPITest {
         assertThrows(IllegalStateException.class, () ->FixedArrayStore.add(thirdBook));
     }
 
-    //TODO:add a test to make sure the original book that isn't the duplicate is still there using the optional find by isbn (or assert same using .get())
-    //TODO: add ISBN normalization
+    //add a test to make sure the original book that isn't the duplicate is still there using the optional find by isbn (or assert same using .get())
+    // add ISBN normalization
 
     //this section will test looking up a book object using ISBN
     //case a: the object exists, and thus the method should return the book with the matching isbn
@@ -158,7 +158,7 @@ class BookstoreAPITest {
 
     }
     //This section will handle removing a Book from the store
-    //Todo: add this section once Dom completes T3 for remove by ISBN
+    //add this section once Dom completes T3 for remove by ISBN
     @Test
     void objectRemainsUnchangedAfterSnapshot() {
         //This section will handle making a snapshot of the Books in the store
@@ -172,7 +172,7 @@ class BookstoreAPITest {
         assertNotNull(ArrayListStore);
         assertSame(firstBook, ArrayListStore.findByIsbn(firstBook.isbn()).get());
         //add an item to the original list and check that the snapshot doesn't have the new book
-        //todo: add this test as a seperate test (SnapshotRemainsUnchangedAfterChangingOriginal)
+        //add this test as a seperate test (SnapshotRemainsUnchangedAfterChangingOriginal)
     }
 
     @Test
