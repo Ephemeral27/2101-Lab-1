@@ -26,7 +26,27 @@ public final class BookArrayUtils {
      */
     public static Book[] filterPriceAtMost(Book[] books, long maximum) {
         // TODO T5: implement the documented extension contract.
-        throw new UnsupportedOperationException("T5 is an exercise");
+        Objects.requireNonNull(books);
+        if (maximum < 0) {
+            throw new IllegalArgumentException("maximum cannot be negative");
+        }
+
+        int count = 0;
+        for (Book b : books) {
+            if (b != null && b.priceCents() <= maximum) {
+                count++;
+            }
+        }
+
+        Book[] result = new Book[count];
+        int index = 0;
+        for (Book b : books) {
+            if (b != null && b.priceCents() <= maximum) {
+                result[index++] = b;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -95,7 +115,30 @@ public final class BookArrayUtils {
      */
     public static Optional<BigDecimal> averagePrice(Book[] books) {
         // TODO T5: implement the documented extension contract.
-        throw new UnsupportedOperationException("T5 is an exercise");
+        Objects.requireNonNull(books);
+
+        BigDecimal sum = BigDecimal.ZERO;
+        int count = 0;
+
+        for (Book b : books) {
+            if (b != null) {
+                sum = sum.add(BigDecimal.valueOf(b.priceCents())
+                        .divide(BigDecimal.valueOf(100)));
+                count++;
+            }
+        }
+
+        if (count == 0) {
+            return Optional.empty();
+        }
+
+        BigDecimal average = sum
+                .divide(BigDecimal.valueOf(count))
+                .setScale(2, java.math.RoundingMode.HALF_EVEN);
+
+        return Optional.of(average);
+
+
     }
 
     /**
@@ -137,7 +180,14 @@ public final class BookArrayUtils {
      * @throws NullPointerException if books is null
      */
     public static Book[] removeDuplicates(Book[] books) {
-        // TODO T5: implement the documented extension contract.
-        throw new UnsupportedOperationException("T5 is an exercise");
-    }
+        Objects.requireNonNull(books);
+        java.util.Set<String> seenIsbns = new java.util.LinkedHashSet<>();
+        Book[] result = new Book[books.length];
+        int index = 0;
+        for (Book b: books) {
+            if (b != null && seenIsbns.add(b.isbn())) {
+                result[index++] = b;
+            }
+        }
+        return Arrays.copyOf(result, index);
 }

@@ -82,6 +82,21 @@ public interface BookstoreAPI {
                 .toList();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //DOM'S PART
     /**
      * Searches case-insensitive author substrings in O(n).
      *
@@ -92,7 +107,12 @@ public interface BookstoreAPI {
      */
     default List<Book> findByAuthor(String query) {
         // TODO T3: implement the documented extension contract.
-        throw new UnsupportedOperationException("T3 is an exercise");
+    	//DOM
+    	String key = Book.text(query).toLowerCase(java.util.Locale.ROOT);
+
+    	return allBooks().stream()
+    	        .filter(b -> b.author().toLowerCase(java.util.Locale.ROOT).contains(key))
+    	        .toList();
     }
 
     /**
@@ -104,8 +124,15 @@ public interface BookstoreAPI {
      * @throws IllegalArgumentException if bounds are invalid
      */
     default List<Book> findByPriceRange(long minimum, long maximum) {
-        // TODO T3: implement the documented extension contract.
-        throw new UnsupportedOperationException("T3 is an exercise");
+        // TODO T3: implement the documented extension contract.        
+        //DOM
+        if (minimum < 0 || maximum < minimum) {
+            throw new IllegalArgumentException("Invalid price range");
+        }
+
+        return allBooks().stream()
+                .filter(b -> b.priceCents() >= minimum && b.priceCents() <= maximum)
+                .toList();
     }
 
     /**
@@ -126,7 +153,14 @@ public interface BookstoreAPI {
      */
     default long inventoryValueCents() {
         // TODO T3: implement the documented extension contract.
-        throw new UnsupportedOperationException("T3 is an exercise");
+    	//DOM
+    	long total = 0;
+
+    	for (Book book : allBooks()) {
+    	    total = Math.addExact(total, book.priceCents());
+    	}
+
+    	return total;
     }
 
     /**
@@ -136,7 +170,16 @@ public interface BookstoreAPI {
      */
     default Optional<Book> mostExpensive() {
         // TODO T3: implement the documented extension contract.
-        throw new UnsupportedOperationException("T3 is an exercise");
+    	//DOM
+    	Book best = null;
+
+    	for (Book book : allBooks()) {
+    	    if (best == null || book.priceCents() > best.priceCents()) {
+    	        best = book;
+    	    }
+    	}
+
+    	return Optional.ofNullable(best);
     }
 
     /**
@@ -146,6 +189,15 @@ public interface BookstoreAPI {
      */
     default Optional<Book> mostRecent() {
         // TODO T3: implement the documented extension contract.
-        throw new UnsupportedOperationException("T3 is an exercise");
+    	//DOM
+    	Book best = null;
+
+    	for (Book book : allBooks()) {
+    	    if (best == null || book.year() > best.year()) {
+    	        best = book;
+    	    }
+    	}
+
+    	return Optional.ofNullable(best);
     }
 }
