@@ -180,7 +180,14 @@ public final class BookArrayUtils {
      * @throws NullPointerException if books is null
      */
     public static Book[] removeDuplicates(Book[] books) {
-        // TODO T5: implement the documented extension contract.
-        throw new UnsupportedOperationException("T5 is an exercise");
-    }
+        Objects.requireNonNull(books);
+        java.util.Set<String> seenIsbns = new java.util.LinkedHashSet<>();
+        Book[] result = new Book[books.length];
+        int index = 0;
+        for (Book b: books) {
+            if (b != null && seenIsbns.add(b.isbn())) {
+                result[index++] = b;
+            }
+        }
+        return Arrays.copyOf(result, index);
 }
