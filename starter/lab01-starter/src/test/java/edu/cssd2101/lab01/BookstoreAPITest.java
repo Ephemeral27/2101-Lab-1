@@ -174,6 +174,21 @@ class BookstoreAPITest {
 
     }
     @Test
+    void FixedArrayBookstoreRemoveByIsbn(){
+        BookstoreAPI fixedArrayStore = new FixedArrayBookstore(5);
+
+        Book firstBook = new Book("1123456789112", "And then there were none", "Agatha Christie",1450L, 1939);
+        Book secondBook = new Book("1123456789113", "Murder on the Orient Express", "Agatha Christie", 1770L, 1934);
+        Book thirdBook = new Book("1123456789114", "A Murder is Announced", "Agatha Christie", 6770L, 1950);
+        fixedArrayStore.add(firstBook);
+        fixedArrayStore.add(secondBook);
+        fixedArrayStore.add(thirdBook);
+        assertTrue(fixedArrayStore.removeByIsbn("1123456789113"));
+        assertSame(firstBook, fixedArrayStore.allBooks().getFirst());
+        assertSame(thirdBook, fixedArrayStore.allBooks().get(1));
+
+    }
+    @Test
     void objectRemainsUnchangedAfterSnapshot() {
         //This section will handle making a snapshot of the Books in the store
         BookstoreAPI ArrayListStore = new ArrayListBookstore();
