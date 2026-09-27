@@ -1,5 +1,7 @@
 package edu.cssd2101.lab01;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,6 +21,10 @@ public class FixedArrayBookstoreTest {
 
         assertTrue(result);
         assertEquals(2, store.size());
+
+        List<Book> remaining = store.allBooks();
+        assertEquals("1234567891", remaining.get(0).isbn());
+        assertEquals("1234567892", remaining.get(1).isbn());
     }
 
     @Test
@@ -32,6 +38,10 @@ public class FixedArrayBookstoreTest {
 
         assertTrue(result);
         assertEquals(2, store.size());
+
+        List<Book> remaining = store.allBooks();
+        assertEquals("1234567890", remaining.get(0).isbn());
+        assertEquals("1234567892", remaining.get(1).isbn());
     }
 
     @Test
@@ -45,6 +55,10 @@ public class FixedArrayBookstoreTest {
 
         assertTrue(result);
         assertEquals(2, store.size());
+
+        List<Book> remaining = store.allBooks();
+        assertEquals("1234567890", remaining.get(0).isbn());
+        assertEquals("1234567891", remaining.get(1).isbn());
     }
 
     @Test
@@ -91,6 +105,7 @@ public class FixedArrayBookstoreTest {
 
         assertFalse(added);
         assertEquals(1, store.size());
+        assertEquals("A", store.allBooks().get(0).title());
     }
 
     @Test
@@ -111,8 +126,18 @@ public class FixedArrayBookstoreTest {
     }
 
     @Test
-    void negativeCapacityRejectedByConstructor() {
-        assertThrows(IllegalArgumentException.class, () -> new FixedArrayBookstore(-1));
+    void zeroCapacityStoreRejectsAdd() {
+        FixedArrayBookstore store = new FixedArrayBookstore(0);
+
+        assertThrows(IllegalStateException.class,
+        () -> store.add(new Book("1234567890", "A", "Author A", 1000, 2000)));
+        assertEquals(0, store.size());
+    }
+
+     @Test
+    void rejectsSyntacticallyInvalidIsbn() {
+        FixedArrayBookstore store = new FixedArrayBookstore(3);
+        assertThrows(IllegalArgumentException.class, () -> store.removeByIsbn("bad"));
     }
 
 }

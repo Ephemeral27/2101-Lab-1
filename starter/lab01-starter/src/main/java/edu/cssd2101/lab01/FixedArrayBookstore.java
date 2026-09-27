@@ -40,10 +40,10 @@ public final class FixedArrayBookstore implements BookstoreAPI {
     /** {@inheritDoc} */
     @Override
     public boolean removeByIsbn(String isbn) {
-        Objects.requireNonNull(isbn, "isbn");
+        String key = Book.normalizeIsbn(isbn);
         int index = -1;
         for (int i = 0; i < size; i++) {
-            if (books[i].isbn().equals(isbn)) {
+            if (books[i].isbn().equals(key)) {
                 index = i;
                 break;
             }
