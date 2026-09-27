@@ -190,4 +190,5 @@ public final class BookArrayUtils {
             }
         }
         return Arrays.copyOf(result, index);
+    }
 }
