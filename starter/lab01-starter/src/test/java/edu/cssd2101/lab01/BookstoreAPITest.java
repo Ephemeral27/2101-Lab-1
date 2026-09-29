@@ -23,14 +23,17 @@ class BookstoreAPITest {
         BookstoreAPI ArrayListStore = new ArrayListBookstore();
         //test if a duplicate book with a duplicate ISBN can be added to the store
         //the test should return false
+
         //the new book we are adding into our ArrayList store
         Book newBook = new Book("1123456789112", "And then there were none", "Agatha Christie", 1450L, 1939);
+
         //the duplicate book with a matching ISBN but different info
         Book duplicateBook = new Book("1123456789112", "Murder on the Orient Express", "Agatha Christie",1770L, 1934);
         ArrayListStore.add(newBook);
+
         //we should not be allowed to add the duplicate book
         assertFalse(ArrayListStore.add(duplicateBook));
-        //System.out.println(ArrayListStore.allBooks());
+
     }
 
 
@@ -57,14 +60,14 @@ class BookstoreAPITest {
         FixedArrayStore.add(newBook);
         //we should not be allowed to add the duplicate book
         assertFalse(FixedArrayStore.add(duplicateBook));
-        //System.out.println(ArrayListStore.allBooks());
+
     }
 
     @Test
     void addNewBookToFullFixedArray(){
         BookstoreAPI FixedArrayStore = new FixedArrayBookstore(2);
         //test if a new book with a unique ISBN can be added to the store if the capacity is full
-        //the test should return throw an IllegalStateException
+        //the test should throw an IllegalStateException
         Book firstBook = new Book("1123456789112", "And then there were none", "Agatha Christie",1450L, 1939);
         Book secondBook = new Book("1123456789113", "Murder on the Orient Express", "Agatha Christie", 1770L, 1934);
         Book thirdBook = new Book("1123456789114", "A Murder is Announced", "Agatha Christie", 6770L, 1950);
@@ -105,7 +108,7 @@ class BookstoreAPITest {
         ArrayListStore.add(thirdBook);
         Optional<Book> foundBook = ArrayListStore.findByIsbn("1123456789115");
         assertFalse(foundBook.isPresent());
-        //assertNotSame(thirdBook,foundBook.get());
+
     }
 
     // should not accept null or deformed ISBN
@@ -117,7 +120,7 @@ class BookstoreAPITest {
 
     }
 
-    //for fixedArray
+
     //case a: the object exists, and thus the method should return the book with the matching isbn
     @Test
     void findExistingBookFixedArray(){
@@ -200,9 +203,7 @@ class BookstoreAPITest {
         snap[0] = null;
         assertNotNull(ArrayListStore);
         assertSame(firstBook, ArrayListStore.findByIsbn(firstBook.isbn()).get());
-        //add an item to the original list and check that the snapshot doesn't have the new book
-        //add this test as a seperate test (SnapshotRemainsUnchangedAfterChangingOriginal)
-    }
+       }
 
     @Test
     void snapshotRemainsUnchangedAfterChangingOriginal() {
@@ -220,7 +221,7 @@ class BookstoreAPITest {
         assertSame(firstBook, snap[0]);
     }
 
-    //this will test the findByAuthor method
+    //this section will test the findByAuthor method
     @Test
     void ArrayListBookstoreFindByAuthorWithSpaces(){
         BookstoreAPI ArrayListStore = new ArrayListBookstore();
@@ -375,8 +376,7 @@ class BookstoreAPITest {
         ArrayListStore.add(secondBook);
 
         assertSame(secondBook, ArrayListStore.findByYear(1838).getFirst());
-        //System.out.println(ArrayListStore.allBooks());
-        //System.out.println(ArrayListStore.findByYear(1838));
+
     }
 
     @Test
@@ -399,7 +399,7 @@ class BookstoreAPITest {
         ArrayListStore.add(secondBook);
 
         assertEquals(3100L, ArrayListStore.inventoryValueCents());
-        //System.out.println(ArrayListStore.inventoryValueCents());
+
     }
     @Test
     void FixedArrayBookstoreInventory(){
@@ -410,7 +410,7 @@ class BookstoreAPITest {
         FixedArrayStore.add(secondBook);
 
         assertEquals(3100L, FixedArrayStore.inventoryValueCents());
-        //System.out.println(ArrayListStore.inventoryValueCents());
+
     }
 
     @Test
@@ -445,8 +445,5 @@ class BookstoreAPITest {
 
         assertSame(firstBook, ArrayListStore.mostRecent().get());
     }
-
-
-
 
 }
