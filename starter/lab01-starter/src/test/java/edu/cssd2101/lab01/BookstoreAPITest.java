@@ -37,7 +37,7 @@ class BookstoreAPITest {
     }
 
 
-    //This section is testing adding new books and duplicates for ArrayListBookstore
+    //This section is testing adding new books and duplicates for FixedArrayBookstore
     //it also test when a user tries to add a new book, but the capacity has been reached
     @Test
     void addNewBookFixedArray(){
@@ -217,6 +217,36 @@ class BookstoreAPITest {
         //add an item to the original list and check that the snapshot doesn't have the new book
         Book secondBook = new Book("1123456789113", "Murder on the Orient Express", "Agatha Christie", 1770L, 1934);
         ArrayListStore.add(secondBook);
+        assertEquals(1,snap.length);
+        assertSame(firstBook, snap[0]);
+    }
+
+    @Test
+    void objectRemainsUnchangedAfterSnapshotFixedArray() {
+        //This section will handle making a snapshot of the Books in the store
+        BookstoreAPI FixedArrayStore = new FixedArrayBookstore(5);
+
+        Book firstBook = new Book("1123456789112", "And then there were none", "Agatha Christie", 1450L, 1939);
+        FixedArrayStore.add(firstBook);
+        Book[] snap = FixedArrayStore.snapshotArray();
+        //once you make a snapshot of the original store, check that the original store exists and that it's not null, even if we delete the snapshot's item
+        snap[0] = null;
+        assertNotNull(FixedArrayStore);
+        assertSame(firstBook, FixedArrayStore.findByIsbn(firstBook.isbn()).get());
+    }
+
+    @Test
+    void snapshotRemainsUnchangedAfterChangingOriginalFixedArray() {
+        //This section will handle making a snapshot of the Books in the store
+        BookstoreAPI FixedArrayStore = new FixedArrayBookstore(5);
+
+        Book firstBook = new Book("1123456789112", "And then there were none", "Agatha Christie", 1450L, 1939);
+        FixedArrayStore.add(firstBook);
+        Book[] snap = FixedArrayStore.snapshotArray();
+        //once you make a snapshot of the original store,
+        //add an item to the original list and check that the snapshot doesn't have the new book
+        Book secondBook = new Book("1123456789113", "Murder on the Orient Express", "Agatha Christie", 1770L, 1934);
+        FixedArrayStore.add(secondBook);
         assertEquals(1,snap.length);
         assertSame(firstBook, snap[0]);
     }
