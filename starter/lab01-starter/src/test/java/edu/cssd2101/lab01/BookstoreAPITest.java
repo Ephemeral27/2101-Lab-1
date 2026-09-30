@@ -278,10 +278,19 @@ class BookstoreAPITest {
         Book secondBook = new Book("1123456789113", "Oliver Twist", "Charles Dickens", 1450L, 1838);
         ArrayListStore.add(firstBook);
         ArrayListStore.add(secondBook);
-        //assertSame(secondBook, ArrayListStore.findByAuthor("CHARLES DICKENS").getFirst());
-        System.out.println(ArrayListStore.findByAuthor("CHARLES DICKENS"));
-        //this test returns a []. let Dom know
-        //once fixed make the test for fixedarray
+        assertSame(secondBook, ArrayListStore.findByAuthor("CHARLES DICKENS").getFirst());
+
+    }
+
+    @Test
+    void FixedArrayStoreFindByAuthorWithAllCaps(){
+        BookstoreAPI FixedArrayStore = new FixedArrayBookstore(5);
+        Book firstBook = new Book("1123456789112", "And then there were none", "Agatha Christie", 1450L, 1939);
+        Book secondBook = new Book("1123456789113", "Oliver Twist", "Charles Dickens", 1450L, 1838);
+        FixedArrayStore.add(firstBook);
+        FixedArrayStore.add(secondBook);
+        assertSame(secondBook, FixedArrayStore.findByAuthor("CHARLES DICKENS").getFirst());
+
     }
 
     @Test
